@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": 1783623449847,
+  "updatedAt": 1783624933335,
   "categories": [
     {
       "id": "exec",
@@ -36,18 +36,6 @@
       "marks": [
         "ic"
       ],
-      "dotted": []
-    },
-    {
-      "id": "p2",
-      "first": "Suzie",
-      "last": "Sharron",
-      "title": "Executive Assistant",
-      "manager": "p1",
-      "open": false,
-      "note": "",
-      "cats": [],
-      "marks": [],
       "dotted": []
     },
     {
@@ -241,7 +229,7 @@
       "first": "Kathryn",
       "last": "Ellsworth",
       "title": "Director, Annual Giving",
-      "manager": "p3",
+      "manager": "p21",
       "open": false,
       "note": "",
       "cats": [],
@@ -448,7 +436,8 @@
         "exec"
       ],
       "marks": [],
-      "dotted": []
+      "dotted": [],
+      "layout": "stack"
     },
     {
       "id": "p35",
@@ -460,9 +449,7 @@
       "note": "Dotted line to CFO",
       "cats": [],
       "marks": [],
-      "dotted": [
-        "p74"
-      ]
+      "dotted": []
     },
     {
       "id": "p36",
@@ -481,7 +468,7 @@
       "first": "Payton",
       "last": "Hammer",
       "title": "Land Transactions Project Manager",
-      "manager": "p34",
+      "manager": "p36",
       "open": false,
       "note": "",
       "cats": [],
@@ -495,7 +482,7 @@
       "first": "Sameer",
       "last": "Tomar",
       "title": "Real Estate Specialist",
-      "manager": "p34",
+      "manager": "p36",
       "open": false,
       "note": "",
       "cats": [],
@@ -507,7 +494,7 @@
       "first": "Ennie",
       "last": "Akinwunmi",
       "title": "Land Transactions Associate",
-      "manager": "p34",
+      "manager": "p36",
       "open": false,
       "note": "Starts 7.15.26",
       "cats": [],
@@ -519,7 +506,7 @@
       "first": "TBD",
       "last": "",
       "title": "Land Transactions Intern",
-      "manager": "p34",
+      "manager": "p36",
       "open": true,
       "note": "~Q2",
       "cats": [],
@@ -884,7 +871,8 @@
         "exec"
       ],
       "marks": [],
-      "dotted": []
+      "dotted": [],
+      "layout": "stack"
     },
     {
       "id": "p70",
@@ -1016,6 +1004,18 @@
       "last": "Williams",
       "title": "Grants Accountant",
       "manager": "p78",
+      "open": false,
+      "note": "",
+      "cats": [],
+      "marks": [],
+      "dotted": []
+    },
+    {
+      "id": "n1000mrdv4ygy",
+      "first": "Suzie",
+      "last": "Sharron",
+      "title": "Executive Assistant",
+      "manager": "p1",
       "open": false,
       "note": "",
       "cats": [],
