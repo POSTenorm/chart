@@ -1,12 +1,12 @@
 {
   "version": 1,
-  "updatedAt": 1783624933335,
+  "updatedAt": 1783626139070,
   "categories": [
     {
       "id": "exec",
       "name": "Executive Team",
       "color": "#007DBA",
-      "style": "outline"
+      "style": "fill"
     }
   ],
   "markers": [
@@ -17,7 +17,7 @@
     },
     {
       "id": "sc",
-      "name": "Social Committee - Serving July 2026-July 2027",
+      "name": "Social Committee",
       "color": "#EE811B"
     }
   ],
