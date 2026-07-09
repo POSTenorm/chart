@@ -847,7 +847,6 @@
   // ---------- init ----------
   (async function init(){
     staticHost=!hasStore;
-    showStoreBanner();
     if(hasStore){
       var loaded=await loadState();
       if(loaded&&loaded.people){state=loaded;}
