@@ -1,4 +1,5 @@
 <!-- POST Organizational Chart -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;800&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
@@ -100,10 +101,10 @@
   .tree ul.stack > li::before{content:'';position:absolute;left:50%;top:0;width:0;height:14px;border-left:2px solid var(--line);right:auto}
   .tree ul.stack > li::after{display:none}
 
-  .plate{position:relative;z-index:2;background:var(--paper);border:1.5px solid var(--blue3);border-radius:10px;width:176px;min-height:64px;padding:9px 10px 8px;text-align:center;box-shadow:0 1px 3px rgba(0,43,73,.12);cursor:default}
-  .plate .nm{font-family:var(--head);font-weight:800;font-size:.84rem;line-height:1.15;color:var(--blue4)}
-  .plate .tt{font-family:var(--head);font-weight:400;font-size:.74rem;line-height:1.2;color:var(--ink-soft);margin-top:2px}
-  .plate .nt{font-family:var(--head);font-weight:600;font-size:.66rem;color:var(--blue3);margin-top:3px;font-style:italic}
+  .plate{position:relative;z-index:2;background:var(--paper);border:1.5px solid var(--blue3);border-radius:10px;width:176px;min-height:66px;padding:10px 11px 9px;text-align:center;box-shadow:0 1px 3px rgba(0,43,73,.12);cursor:default}
+  .plate .nm{font-family:var(--head);font-weight:800;font-size:1rem;line-height:1.2;color:var(--blue4)}
+  .plate .tt{font-family:var(--head);font-weight:400;font-size:.86rem;line-height:1.25;color:var(--ink-soft);margin-top:3px}
+  .plate .nt{font-family:var(--head);font-weight:600;font-size:.74rem;color:var(--blue3);margin-top:4px;font-style:italic}
   .plate.open-pos{background:var(--sand);border-style:dashed}
   .plate.open-pos .nm{color:#5c4a22}
   .plate.hit{background:#98C478 !important;border:2px solid #4f7a34 !important;box-shadow:0 0 0 5px rgba(152,196,120,.5),0 8px 22px rgba(30,61,18,.42) !important}
@@ -538,13 +539,14 @@
   // ---------- zoom ----------
   function applyZoom(){
     var sc=$("scaler"),sz=$("sizer");
+    if(window.innerWidth<=760){sc.style.transform="none";sz.style.width="";sz.style.height="";$("zoomPct").textContent="100%";return;}
     sc.style.transform="scale("+zoom+")";
     sz.style.width=(sc.scrollWidth*zoom)+"px";
     sz.style.height=(sc.scrollHeight*zoom)+"px";
     $("zoomPct").textContent=Math.round(zoom*100)+"%";
   }
   function setZoom(z){zoom=Math.min(2,Math.max(0.2,z));applyZoom();requestAnimationFrame(drawDotted);}
-  function fitZoom(){var vp=$("viewport"),sc=$("scaler");var zw=(vp.clientWidth-8)/sc.scrollWidth;var zh=(vp.clientHeight-10)/sc.scrollHeight;setZoom(Math.min(1.2,zw,zh));}
+  function fitZoom(){if(window.innerWidth<=760){zoom=1;applyZoom();return;}var vp=$("viewport"),sc=$("scaler");var zw=(vp.clientWidth-8)/sc.scrollWidth;var zh=(vp.clientHeight-10)/sc.scrollHeight;setZoom(Math.min(1.2,zw,zh));}
 
   // ---------- search ----------
   function personText(p){
@@ -835,7 +837,7 @@
     $("resetBtn").addEventListener("click",function(){if(confirm("Reset the whole chart back to the original July 1, 2026 layout? This replaces the current version for everyone.")){closeInspector();state=defaultState();saveState("Reset to original");renderAll();}});
 
     document.addEventListener("keydown",function(e){if(e.key==="Escape"){closeInspector();$("adminModal").classList.remove("show");}});
-    window.addEventListener("resize",function(){clearTimeout(window.__oc);window.__oc=setTimeout(function(){requestAnimationFrame(drawDotted);},150);});
+    window.addEventListener("resize",function(){clearTimeout(window.__oc);window.__oc=setTimeout(function(){applyZoom();requestAnimationFrame(drawDotted);},150);});
   }
   function refreshPlate(p){
     var el=document.querySelector('.plate[data-id="'+p.id+'"]');if(!el){renderChart();return;}
