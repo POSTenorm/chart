@@ -102,9 +102,9 @@
   .tree ul.stack > li::after{display:none}
 
   .plate{position:relative;z-index:2;background:var(--paper);border:1.5px solid var(--blue3);border-radius:10px;width:176px;min-height:66px;padding:10px 11px 9px;text-align:center;box-shadow:0 1px 3px rgba(0,43,73,.12);cursor:default}
-  .plate .nm{font-family:var(--head);font-weight:800;font-size:1rem;line-height:1.2;color:var(--blue4)}
-  .plate .tt{font-family:var(--head);font-weight:400;font-size:.86rem;line-height:1.25;color:var(--ink-soft);margin-top:3px}
-  .plate .nt{font-family:var(--head);font-weight:600;font-size:.74rem;color:var(--blue3);margin-top:4px;font-style:italic}
+  .plate .nm{font-family:var(--head);font-weight:800;font-size:calc(1rem * var(--font-scale,1));line-height:1.2;color:var(--blue4)}
+  .plate .tt{font-family:var(--head);font-weight:400;font-size:calc(.86rem * var(--font-scale,1));line-height:1.25;color:var(--ink-soft);margin-top:3px}
+  .plate .nt{font-family:var(--head);font-weight:600;font-size:calc(.74rem * var(--font-scale,1));color:var(--blue3);margin-top:4px;font-style:italic}
   .plate.open-pos{background:var(--sand);border-style:dashed}
   .plate.open-pos .nm{color:#5c4a22}
   .plate.hit{background:#98C478 !important;border:2px solid #4f7a34 !important;box-shadow:0 0 0 5px rgba(152,196,120,.5),0 8px 22px rgba(30,61,18,.42) !important}
@@ -220,6 +220,12 @@
         <span class="pct" id="zoomPct">100%</span>
         <button id="zoomIn" title="Zoom in">+</button>
         <button id="zoomFit" title="Fit to screen" style="width:auto;padding:0 10px;font-size:.76rem">Fit</button>
+      </div>
+      <div class="zoomer" title="Name & title text size">
+        <span style="font-family:var(--head);font-size:.74rem;font-weight:700;color:var(--ink-soft);padding:0 2px 0 8px">Text</span>
+        <button id="fontDown" title="Smaller" style="font-size:.82rem">A</button>
+        <span class="pct" id="fontPct">100%</span>
+        <button id="fontUp" title="Larger" style="font-size:1.2rem">A</button>
       </div>
       <button class="btn btn-line" id="expandAll">Expand all</button>
       <button class="btn btn-line" id="collapseAll">Collapse all</button>
@@ -402,7 +408,7 @@
 
   // ---------- state / storage ----------
   var hasStore=(typeof window!=="undefined" && window.storage && typeof window.storage.get==="function");
-  var state=null, isAdmin=false, staticHost=false, selId=null, zoom=1, collapsed={}, lastSavedAt=0, saveTimer=null, seq=1000;
+  var state=null, isAdmin=false, staticHost=false, selId=null, zoom=1, collapsed={}, lastSavedAt=0, saveTimer=null, seq=1000, fontScale=1;
   function $(id){return document.getElementById(id);}
   function byId(id){for(var i=0;i<state.people.length;i++) if(state.people[i].id===id) return state.people[i]; return null;}
   function kids(id){return state.people.filter(function(p){return p.manager===id;});}
@@ -547,6 +553,8 @@
   }
   function setZoom(z){zoom=Math.min(2,Math.max(0.2,z));applyZoom();requestAnimationFrame(drawDotted);}
   function fitZoom(){if(window.innerWidth<=760){zoom=1;applyZoom();return;}var vp=$("viewport"),sc=$("scaler");var zw=(vp.clientWidth-8)/sc.scrollWidth;var zh=(vp.clientHeight-10)/sc.scrollHeight;setZoom(Math.min(1.2,zw,zh));}
+  function applyFontScale(){document.documentElement.style.setProperty("--font-scale",fontScale);var el=$("fontPct");if(el)el.textContent=Math.round(fontScale*100)+"%";}
+  function setFontScale(d){fontScale=Math.min(1.7,Math.max(0.8,Math.round((fontScale+d)*10)/10));applyFontScale();try{localStorage.setItem("post_oc_fontscale",fontScale);}catch(e){}requestAnimationFrame(function(){applyZoom();drawDotted();});}
 
   // ---------- search ----------
   function personText(p){
@@ -794,6 +802,8 @@
     $("zoomIn").addEventListener("click",function(){setZoom(zoom+0.1);});
     $("zoomOut").addEventListener("click",function(){setZoom(zoom-0.1);});
     $("zoomFit").addEventListener("click",fitZoom);
+    $("fontDown").addEventListener("click",function(){setFontScale(-0.1);});
+    $("fontUp").addEventListener("click",function(){setFontScale(0.1);});
     $("expandAll").addEventListener("click",function(){collapsed={};renderChart();});
     $("collapseAll").addEventListener("click",function(){
       state.people.forEach(function(p){if(p.manager&&kids(p.id).length)collapsed[p.id]=true;});
@@ -849,6 +859,7 @@
   // ---------- init ----------
   (async function init(){
     staticHost=!hasStore;
+    try{var _fs=parseFloat(localStorage.getItem("post_oc_fontscale"));if(_fs>=0.8&&_fs<=1.7)fontScale=_fs;}catch(e){}
     if(hasStore){
       var loaded=await loadState();
       if(loaded&&loaded.people){state=loaded;}
@@ -858,7 +869,7 @@
       state=(fetched&&fetched.people)?fetched:defaultState();
       $("publishJson").style.display="inline-flex";
     }
-    wire();renderAll();
+    wire();renderAll();applyFontScale();
     setTimeout(fitZoom,80);
     startPolling();
   })();
