@@ -79,9 +79,12 @@
 
   /* ---------- chart ---------- */
   .viewport{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);margin:12px 0 20px;overflow:auto;position:relative;max-height:calc(100vh - 210px)}
-  .sizer{position:relative}
+  .sizer{position:relative;margin:0 auto}
   .scaler{transform-origin:top left;position:relative;width:max-content;padding:34px 40px 46px}
   #dotsvg{position:absolute;inset:0;pointer-events:none;z-index:3}
+  #dotsvg .dotpath{opacity:0;transition:opacity .18s}
+  #dotsvg .dotpath.on{opacity:.9}
+
 
   .tree, .tree ul{list-style:none;margin:0;padding:0}
   .tree ul{display:flex;justify-content:center;position:relative;padding-top:26px}
@@ -95,23 +98,25 @@
   .tree > li::before,.tree > li::after{display:none}
   .tree li.collapsed > ul{display:none}
   /* vertical stack: a manager whose reports are all individual contributors */
-  .tree ul.stack{display:flex;flex-direction:column;align-items:stretch;gap:0;padding-top:0;margin:0;position:relative}
-  /* center bridge: from beneath the manager straight down into the chain */
-  .tree ul.stack::before{content:'';position:absolute;left:50%;top:-30px;height:30px;width:0;border-left:2px solid var(--line)}
-  .tree ul.stack:has(> li:first-child.branch)::before{display:none}
-  .tree ul.stack > li{display:flex;flex-direction:column;align-items:center;padding:14px 0 0;position:relative}
-  /* direct reports: middle-of-plate to middle-of-plate vertical link */
-  .tree ul.stack > li::before{content:'';position:absolute;left:50%;top:0;width:0;height:14px;border:none;border-left:2px solid var(--line);border-radius:0;right:auto}
-  /* branch members (have their own team): left spine with rounded elbow into the plate */
-  .tree ul.stack > li.branch{align-items:flex-start;padding-left:26px}
-  .tree ul.stack > li.branch::before{left:0;top:-2px;width:26px;height:48px;border-left:2px solid var(--line);border-bottom:2px solid var(--line);border-bottom-left-radius:12px}
-  .tree ul.stack > li::after{display:none;content:'';border:none}
-  .tree ul.stack.hasb > li::after{display:block;position:absolute;left:0;top:0;bottom:0;width:0;height:auto;border:none;border-left:2px solid var(--line)}
-  .tree ul.stack.hasb > li:last-child::after{display:none}
+  .tree ul.stack{display:flex;flex-direction:column;align-items:flex-start;gap:0;padding-top:0;margin:0;position:relative}
+  .tree ul.stack::before{display:none;content:none}
   /* hook: spine branches off from beneath the manager's plate, then runs down the left */
-  .tree ul.stack.hasb::after{content:'';position:absolute;left:0;top:-28px;width:50%;height:28px;border:none;border-left:2px solid var(--line);border-top:2px solid var(--line);border-top-left-radius:12px}
+  .tree ul.stack::after{content:'';position:absolute;left:0;top:-28px;width:50%;height:28px;border:none;border-left:2px solid var(--line);border-top:2px solid var(--line);border-top-left-radius:12px;pointer-events:none}
+  /* every plate in a stacked column: left spine with a rounded elbow into the plate */
+  .tree ul.stack > li{display:flex;flex-direction:column;align-items:flex-start;padding:14px 0 0 26px;position:relative}
+  .tree ul.stack > li::before{content:'';position:absolute;left:0;top:-2px;width:26px;height:48px;border:none;border-left:2px solid var(--line);border-bottom:2px solid var(--line);border-bottom-left-radius:12px;right:auto}
+  .tree ul.stack > li::after{content:'';display:block;position:absolute;left:0;top:0;bottom:0;width:0;height:auto;border:none;border-left:2px solid var(--line)}
+  .tree ul.stack > li:last-child::after{display:none}
+  /* assistant plates beside their manager */
+  .platewrap{position:relative;display:inline-block}
+  .sidebox{position:absolute;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;z-index:2}
+  .sidebox.sideL{right:calc(100% + 30px)}
+  .sidebox.sideR{left:calc(100% + 30px)}
+  .sidebox .plate::after{content:'';position:absolute;top:50%;width:30px;height:0;border-top:2px solid var(--line)}
+  .sidebox.sideL .plate::after{left:100%}
+  .sidebox.sideR .plate::after{right:100%}
 
-  .plate{position:relative;z-index:2;background:var(--paper);border:1.5px solid var(--blue3);border-radius:10px;width:176px;min-height:66px;padding:10px 11px 9px;text-align:center;box-shadow:0 1px 3px rgba(0,43,73,.12);cursor:default}
+  .plate{position:relative;z-index:2;background:var(--paper);border:1.5px solid var(--blue3);border-radius:10px;width:176px;min-height:66px;padding:10px 11px 9px;text-align:center;box-shadow:0 1px 3px rgba(0,43,73,.12);cursor:default;display:flex;flex-direction:column;justify-content:center}
   .plate .nm{font-family:var(--head);font-weight:800;font-size:calc(1.3rem * var(--font-scale,1));line-height:1.2;color:var(--blue4)}
   .plate .tt{font-family:var(--head);font-weight:400;font-size:calc(1.12rem * var(--font-scale,1));line-height:1.25;color:var(--ink-soft);margin-top:3px}
   .plate .nt{font-family:var(--head);font-weight:600;font-size:calc(.96rem * var(--font-scale,1));color:var(--blue3);margin-top:4px;font-style:italic}
@@ -122,7 +127,7 @@
   .plate.hit .tt,.plate.hit .nt{color:#2b4a1b !important}
   .plate .dots{position:absolute;top:-10px;right:-10px;display:flex;gap:5px}
   .plate .dots i{width:21px;height:21px;border-radius:50%;border:2.5px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.35);display:block;position:relative}
-  .plate .dots i::after{content:attr(data-name);position:absolute;bottom:calc(100% + 9px);right:-8px;background:var(--blue4);color:#fff;font-family:var(--head);font-size:.8rem;font-weight:600;font-style:normal;line-height:1.2;padding:6px 11px;border-radius:8px;white-space:nowrap;opacity:0;pointer-events:none;transform:translateY(4px);transition:opacity .15s,transform .15s;box-shadow:0 6px 18px rgba(0,43,73,.35);z-index:60}
+  .plate .dots i::after{content:attr(data-name);position:absolute;bottom:calc(100% + 9px);right:-8px;background:var(--blue4);color:#fff;font-family:var(--head);font-size:1rem;font-weight:600;font-style:normal;line-height:1.25;padding:8px 13px;border-radius:8px;white-space:nowrap;opacity:0;pointer-events:none;transform:translateY(4px);transition:opacity .15s,transform .15s;box-shadow:0 6px 18px rgba(0,43,73,.35);z-index:60}
   .plate .dots i::before{content:'';position:absolute;bottom:calc(100% + 4px);right:4px;border:5px solid transparent;border-top-color:var(--blue4);opacity:0;pointer-events:none;transition:opacity .15s}
   .plate .dots i:hover::after,.plate .dots i:hover::before{opacity:1;transform:none}
   .kids-toggle{font-family:var(--head);font-weight:700;font-size:calc(.82rem * var(--font-scale,1));color:var(--blue3);background:#eaf3f9;border:1px solid var(--line);border-radius:999px;padding:3px 12px;cursor:pointer;margin-top:7px;position:relative;z-index:2}
@@ -191,8 +196,10 @@
     .tree ul.stack > li::after{display:none}
     .tree ul.stack > li.branch{display:block;padding:12px 0 0;align-items:stretch}
     .tree ul.stack > li.branch::before{display:none}
-    .tree ul.stack.hasb > li::after{display:none}
-    .tree ul.stack.hasb::after{display:none}
+    .tree ul.stack::after{display:none}
+    .platewrap{display:block}
+    .sidebox{position:static;transform:none;margin:10px 0 0;gap:8px}
+    .sidebox .plate::after{display:none}
     .plate .dots{top:8px;right:8px}
     .scaler{width:auto;padding:14px}
     #dotsvg{display:none}
@@ -203,7 +210,7 @@
   @page{size:17in 11in;margin:0.3in}
   @media print{
     body{background:#fff}
-    .topbar,.subbar,.tray,.banner,footer.foot,.inspector,.toast,.search{display:none !important}
+    .topbar,.subbar,.tray,.banner,footer.foot,.inspector,.toast,.search,#dotsvg{display:none !important}
     .print-head{display:block !important}
     .viewport{border:none;box-shadow:none;overflow:visible;max-height:none;margin:0}
     #oc-app{background:#fff}
@@ -303,9 +310,11 @@
       <div class="field"><label>Last name</label><input id="iLast" type="text" autocomplete="off"></div>
       <div class="field"><label>Title</label><input id="iTitle" type="text" autocomplete="off"></div>
       <div class="field"><label>Reports to</label><div class="combo"><input id="iMgrInput" type="text" placeholder="Search or pick a manager" autocomplete="off"><div class="combo-list" id="iMgrList"></div></div></div>
+      <div class="field" id="iSideField" style="display:none"><label>Position beside manager</label><select id="iSide"><option value="">Below manager (standard)</option><option value="left">Left of manager</option><option value="right">Right of manager</option></select></div>
       <div class="field" id="iLayoutField" style="display:none"><label>Direct reports layout</label><select id="iLayout"><option value="">Auto (stack when no sub-teams)</option><option value="stack">Stacked (one vertical column)</option><option value="spread">Horizontal (side by side)</option></select></div>
       <div class="field"><div class="checkrow"><input id="iOpen" type="checkbox"><label for="iOpen" style="margin:0;text-transform:none;font-size:.85rem;letter-spacing:0">Open position (unfilled role)</label></div></div>
       <div class="field"><label>Note (e.g. Starts 8.5.26, Part-Time, 60%)</label><input id="iNote" type="text" autocomplete="off"></div>
+      <div class="field"><label>Plate height (lines of text) &mdash; leave blank for automatic</label><input id="iHeight" type="number" min="1" max="12" step="1" placeholder="Auto" autocomplete="off"></div>
       <div class="field"><label>Categories</label><div class="checklist" id="iCats"></div></div>
       <div class="field"><label>Committees &amp; working groups</label><div class="checklist" id="iMarks"></div></div>
       <div class="field"><label>Dotted-line reports to</label><input id="iDottedSearch" class="combo-search" type="text" placeholder="Search to filter" autocomplete="off"><div class="checklist" id="iDotted"></div></div>
@@ -466,6 +475,8 @@
       if(c.style==="fill"){d.style.background=c.color+"22";d.style.borderColor=c.color;}
       else{d.style.borderColor=c.color;d.style.borderWidth="2.5px";d.style.boxShadow="0 2px 6px "+c.color+"55";}
     });
+    if(p.h&&!p.lines){var lv=Math.round((parseInt(p.h,10)-19)/24);if(lv>=1&&lv<=12){p.lines=lv;}delete p.h;}
+    if(p.lines){var n=parseInt(p.lines,10);if(n>=1&&n<=12)d.style.minHeight="calc("+(n*24)+"px * var(--font-scale,1) + 19px)";}
     var nm=document.createElement("div");nm.className="nm";nm.textContent=fullName(p)||"TBD";d.appendChild(nm);
     var tt=document.createElement("div");tt.className="tt";tt.textContent=p.title;d.appendChild(tt);
     if(p.note){var nt=document.createElement("div");nt.className="nt";nt.textContent="("+p.note+")";d.appendChild(nt);}
@@ -495,9 +506,16 @@
 
   function nodeLi(p){
     var li=document.createElement("li");li.dataset.id=p.id;
-    li.appendChild(plateEl(p));
     var ch=kids(p.id);
-    if(ch.length){
+    var sideL=ch.filter(function(c){return c.side==="left"&&kids(c.id).length===0;});
+    var sideR=ch.filter(function(c){return c.side==="right"&&kids(c.id).length===0;});
+    var below=ch.filter(function(c){return sideL.indexOf(c)<0&&sideR.indexOf(c)<0;});
+    var wrap=document.createElement("div");wrap.className="platewrap";
+    if(sideL.length){var bl=document.createElement("div");bl.className="sidebox sideL";sideL.forEach(function(k){bl.appendChild(plateEl(k));});wrap.appendChild(bl);}
+    wrap.appendChild(plateEl(p));
+    if(sideR.length){var br=document.createElement("div");br.className="sidebox sideR";sideR.forEach(function(k){br.appendChild(plateEl(k));});wrap.appendChild(br);}
+    li.appendChild(wrap);
+    if(below.length){
       var tog=document.createElement("button");tog.className="kids-toggle";
       var n=descendants(p.id).length;
       tog.innerHTML=collapsed[p.id]?("&#9656; show "+n):("&#9662; "+n);
@@ -506,12 +524,12 @@
       li.appendChild(tog);
       if(collapsed[p.id])li.classList.add("collapsed");
       var ul=document.createElement("ul");
-      var allLeaves=ch.every(function(c){return kids(c.id).length===0;});
+      var allLeaves=below.every(function(c){return kids(c.id).length===0;});
       var mode=p.layout?p.layout:(allLeaves?"stack":"spread");
-      var order=ch;
+      var order=below;
       if(mode==="stack"){
         ul.className="stack";
-        order=ch.slice().sort(function(a,b){return (kids(a.id).length?1:0)-(kids(b.id).length?1:0);});
+        order=below.slice().sort(function(a,b){return (kids(a.id).length?1:0)-(kids(b.id).length?1:0);});
       }
       order.forEach(function(k){
         var kli=nodeLi(k);
@@ -547,9 +565,16 @@
         var path=document.createElementNS("http://www.w3.org/2000/svg","path");
         path.setAttribute("d","M "+x1+" "+y1+" C "+x1+" "+(midY)+", "+x2+" "+(midY)+", "+x2+" "+y2);
         path.setAttribute("fill","none");path.setAttribute("stroke","#00558C");
-        path.setAttribute("stroke-width","2");path.setAttribute("stroke-dasharray","6 5");path.setAttribute("opacity","0.75");
+        path.setAttribute("stroke-width","2");path.setAttribute("stroke-dasharray","6 5");
+        path.setAttribute("class","dotpath");path.dataset.src=p.id;path.dataset.tgt=tid;
         svg.appendChild(path);
       });
+    });
+  }
+
+  function highlightDots(id){
+    document.querySelectorAll("#dotsvg .dotpath").forEach(function(pa){
+      pa.classList.toggle("on", !!id && (pa.dataset.src===id||pa.dataset.tgt===id));
     });
   }
 
@@ -613,8 +638,10 @@
     selId=id;var p=byId(id);if(!p)return;
     $("inspector").classList.add("show");
     $("inspTitle").textContent=fullName(p)||"New person";
-    $("iFirst").value=p.first;$("iLast").value=p.last;$("iTitle").value=p.title;$("iNote").value=p.note||"";$("iOpen").checked=!!p.open;
+    $("iFirst").value=p.first;$("iLast").value=p.last;$("iTitle").value=p.title;$("iNote").value=p.note||"";$("iHeight").value=p.lines||"";$("iOpen").checked=!!p.open;
     buildMgrCombo(p);
+    $("iSideField").style.display=(p.manager&&kids(id).length===0)?"block":"none";
+    $("iSide").value=p.side||"";
     $("iLayoutField").style.display=kids(id).length?"block":"none";
     $("iLayout").value=p.layout||"";
     buildChecklist($("iCats"),state.categories,p.cats,function(list){p.cats=list;saveSoon();renderChart();});
@@ -856,8 +883,10 @@
     $("iLast").addEventListener("input",function(e){var p=byId(selId);if(p){p.last=e.target.value;saveSoon();refreshPlate(p);}});
     $("iTitle").addEventListener("input",function(e){var p=byId(selId);if(p){p.title=e.target.value;saveSoon();refreshPlate(p);renderMeta();}});
     $("iNote").addEventListener("input",function(e){var p=byId(selId);if(p){p.note=e.target.value;saveSoon();refreshPlate(p);}});
+    $("iHeight").addEventListener("input",function(e){var p=byId(selId);if(p){var v=parseInt(e.target.value,10);p.lines=(v>=1&&v<=12)?v:"";delete p.h;saveSoon();refreshPlate(p);requestAnimationFrame(function(){applyZoom();drawDotted();});}});
     $("iOpen").addEventListener("change",function(e){var p=byId(selId);if(p){p.open=e.target.checked;saveSoon();renderChart();renderMeta();}});
     $("iLayout").addEventListener("change",function(e){var p=byId(selId);if(p){p.layout=e.target.value||"";saveSoon();renderChart();}});
+    $("iSide").addEventListener("change",function(e){var p=byId(selId);if(p){p.side=e.target.value||"";saveSoon();renderChart();}});
 
     $("publishJson").addEventListener("click",function(){downloadJson("orgchart.json");toast("orgchart.json downloaded \u2014 replace it in your repo");});
     $("exportBtn").addEventListener("click",function(){downloadJson("post-orgchart-backup-"+new Date().toISOString().slice(0,10)+".json");});
@@ -871,6 +900,8 @@
 
     document.addEventListener("keydown",function(e){if(e.key==="Escape"){closeInspector();$("adminModal").classList.remove("show");}});
     window.addEventListener("resize",function(){clearTimeout(window.__oc);window.__oc=setTimeout(function(){applyZoom();requestAnimationFrame(drawDotted);},150);});
+    $("scaler").addEventListener("mouseover",function(e){var pl=(e.target&&e.target.closest)?e.target.closest(".plate"):null;highlightDots(pl?pl.dataset.id:null);});
+    $("scaler").addEventListener("mouseleave",function(){highlightDots(null);});
   }
   function refreshPlate(p){
     var el=document.querySelector('.plate[data-id="'+p.id+'"]');if(!el){renderChart();return;}
