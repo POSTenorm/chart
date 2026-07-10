@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": 1783695475882,
+  "updatedAt": 1783717129409,
   "categories": [
     {
       "id": "exec",
@@ -36,7 +36,8 @@
       "marks": [
         "ic"
       ],
-      "dotted": []
+      "dotted": [],
+      "lines": 4
     },
     {
       "id": "p3",
@@ -50,7 +51,8 @@
         "exec"
       ],
       "marks": [],
-      "dotted": []
+      "dotted": [],
+      "lines": 4
     },
     {
       "id": "p4",
@@ -276,7 +278,8 @@
         "ic"
       ],
       "dotted": [],
-      "layout": ""
+      "layout": "",
+      "lines": 4
     },
     {
       "id": "p22",
@@ -440,7 +443,8 @@
       ],
       "marks": [],
       "dotted": [],
-      "layout": "stack"
+      "layout": "stack",
+      "lines": 4
     },
     {
       "id": "p35",
@@ -452,7 +456,9 @@
       "note": "Dotted line to CFO",
       "cats": [],
       "marks": [],
-      "dotted": []
+      "dotted": [
+        "p74"
+      ]
     },
     {
       "id": "p36",
@@ -564,7 +570,8 @@
         "exec"
       ],
       "marks": [],
-      "dotted": []
+      "dotted": [],
+      "lines": 4
     },
     {
       "id": "p45",
@@ -578,7 +585,8 @@
       "marks": [
         "sc"
       ],
-      "dotted": []
+      "dotted": [],
+      "side": "left"
     },
     {
       "id": "p46",
@@ -876,7 +884,8 @@
       ],
       "marks": [],
       "dotted": [],
-      "layout": "stack"
+      "layout": "stack",
+      "lines": 4
     },
     {
       "id": "p70",
@@ -939,7 +948,8 @@
       ],
       "marks": [],
       "dotted": [],
-      "layout": "stack"
+      "layout": "stack",
+      "lines": 4
     },
     {
       "id": "p75",
@@ -1025,7 +1035,8 @@
       "note": "",
       "cats": [],
       "marks": [],
-      "dotted": []
+      "dotted": [],
+      "side": "right"
     }
   ]
 }
