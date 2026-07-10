@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": 1783695058605,
+  "updatedAt": 1783695475882,
   "categories": [
     {
       "id": "exec",
@@ -134,7 +134,8 @@
       "note": "",
       "cats": [],
       "marks": [],
-      "dotted": []
+      "dotted": [],
+      "layout": "stack"
     },
     {
       "id": "p11",
@@ -191,7 +192,7 @@
       "first": "TBD",
       "last": "",
       "title": "Development Events Intern",
-      "manager": "p10",
+      "manager": "p14",
       "open": true,
       "note": "~Q1-2",
       "cats": [],
@@ -274,7 +275,8 @@
       "marks": [
         "ic"
       ],
-      "dotted": []
+      "dotted": [],
+      "layout": ""
     },
     {
       "id": "p22",
@@ -319,7 +321,7 @@
       "first": "Annie",
       "last": "Husted",
       "title": "Senior Manager, Communications & Media Relations",
-      "manager": "p22",
+      "manager": "p21",
       "open": false,
       "note": "",
       "cats": [],
@@ -331,7 +333,7 @@
       "first": "Marti",
       "last": "Tedesco",
       "title": "Sr. Media & Communications Manager",
-      "manager": "p22",
+      "manager": "p25",
       "open": false,
       "note": "Retires Fall 2026",
       "cats": [],
@@ -348,7 +350,8 @@
       "note": "",
       "cats": [],
       "marks": [],
-      "dotted": []
+      "dotted": [],
+      "layout": "stack"
     },
     {
       "id": "p28",
@@ -379,7 +382,7 @@
       "first": "Clara",
       "last": "Hach",
       "title": "Community Engagement Intern",
-      "manager": "p27",
+      "manager": "p29",
       "open": false,
       "note": "",
       "cats": [],
@@ -769,7 +772,8 @@
       "note": "",
       "cats": [],
       "marks": [],
-      "dotted": []
+      "dotted": [],
+      "layout": "stack"
     },
     {
       "id": "p62",
@@ -788,7 +792,7 @@
       "first": "Torie",
       "last": "Robinson",
       "title": "Senior GIS Analyst",
-      "manager": "p61",
+      "manager": "p62",
       "open": false,
       "note": "",
       "cats": [],
