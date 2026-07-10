@@ -95,11 +95,21 @@
   .tree > li::before,.tree > li::after{display:none}
   .tree li.collapsed > ul{display:none}
   /* vertical stack: a manager whose reports are all individual contributors */
-  .tree ul.stack{display:flex;flex-direction:column;align-items:center;gap:0;padding-top:0;margin:0}
-  .tree ul.stack::before{display:none}
+  .tree ul.stack{display:flex;flex-direction:column;align-items:stretch;gap:0;padding-top:0;margin:0;position:relative}
+  /* center bridge: from beneath the manager straight down into the chain */
+  .tree ul.stack::before{content:'';position:absolute;left:50%;top:-30px;height:30px;width:0;border-left:2px solid var(--line)}
+  .tree ul.stack:has(> li:first-child.branch)::before{display:none}
   .tree ul.stack > li{display:flex;flex-direction:column;align-items:center;padding:14px 0 0;position:relative}
-  .tree ul.stack > li::before{content:'';position:absolute;left:50%;top:0;width:0;height:14px;border-left:2px solid var(--line);right:auto}
-  .tree ul.stack > li::after{display:none}
+  /* direct reports: middle-of-plate to middle-of-plate vertical link */
+  .tree ul.stack > li::before{content:'';position:absolute;left:50%;top:0;width:0;height:14px;border:none;border-left:2px solid var(--line);border-radius:0;right:auto}
+  /* branch members (have their own team): left spine with rounded elbow into the plate */
+  .tree ul.stack > li.branch{align-items:flex-start;padding-left:26px}
+  .tree ul.stack > li.branch::before{left:0;top:-2px;width:26px;height:48px;border-left:2px solid var(--line);border-bottom:2px solid var(--line);border-bottom-left-radius:12px}
+  .tree ul.stack > li::after{display:none;content:'';border:none}
+  .tree ul.stack.hasb > li::after{display:block;position:absolute;left:0;top:0;bottom:0;width:0;height:auto;border:none;border-left:2px solid var(--line)}
+  .tree ul.stack.hasb > li:last-child::after{display:none}
+  /* hook: spine branches off from beneath the manager's plate, then runs down the left */
+  .tree ul.stack.hasb::after{content:'';position:absolute;left:0;top:-28px;width:50%;height:28px;border:none;border-left:2px solid var(--line);border-top:2px solid var(--line);border-top-left-radius:12px}
 
   .plate{position:relative;z-index:2;background:var(--paper);border:1.5px solid var(--blue3);border-radius:10px;width:176px;min-height:66px;padding:10px 11px 9px;text-align:center;box-shadow:0 1px 3px rgba(0,43,73,.12);cursor:default}
   .plate .nm{font-family:var(--head);font-weight:800;font-size:calc(1.3rem * var(--font-scale,1));line-height:1.2;color:var(--blue4)}
@@ -172,8 +182,14 @@
     .tree li::before,.tree li::after{display:none}
     .tree li > .plate,.tree > li > .plate{width:100%;text-align:left;padding-left:14px}
     .tree ul.stack{display:block;padding:0 0 0 14px;margin:8px 0 0 12px;border-left:2px solid var(--line);align-items:stretch}
+    .tree ul.stack::before{display:none}
     .tree ul.stack > li{display:block;padding:12px 0 0;align-items:stretch}
     .tree ul.stack > li::before{display:none}
+    .tree ul.stack > li::after{display:none}
+    .tree ul.stack > li.branch{display:block;padding:12px 0 0;align-items:stretch}
+    .tree ul.stack > li.branch::before{display:none}
+    .tree ul.stack.hasb > li::after{display:none}
+    .tree ul.stack.hasb::after{display:none}
     .plate .dots{top:8px;right:8px}
     .scaler{width:auto;padding:14px}
     #dotsvg{display:none}
@@ -310,7 +326,7 @@
 <script>
 (function(){
   "use strict";
-  var ADMIN_CODE="POST-orgchart-2026";
+  var ADMIN_CODE="222";
   var KEY="post_orgchart_v1";
 
   // ---------- seed data: POST org chart effective July 1, 2026 ----------
@@ -494,7 +510,11 @@
         ul.className="stack";
         order=ch.slice().sort(function(a,b){return (kids(a.id).length?1:0)-(kids(b.id).length?1:0);});
       }
-      order.forEach(function(k){ul.appendChild(nodeLi(k));});
+      order.forEach(function(k){
+        var kli=nodeLi(k);
+        if(mode==="stack" && kids(k.id).length){kli.classList.add("branch");ul.classList.add("hasb");}
+        ul.appendChild(kli);
+      });
       li.appendChild(ul);
     }
     return li;
