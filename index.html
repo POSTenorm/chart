@@ -121,7 +121,10 @@
   .plate.hit .nm{color:#153708 !important}
   .plate.hit .tt,.plate.hit .nt{color:#2b4a1b !important}
   .plate .dots{position:absolute;top:-10px;right:-10px;display:flex;gap:5px}
-  .plate .dots i{width:21px;height:21px;border-radius:50%;border:2.5px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.35);display:block}
+  .plate .dots i{width:21px;height:21px;border-radius:50%;border:2.5px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.35);display:block;position:relative}
+  .plate .dots i::after{content:attr(data-name);position:absolute;bottom:calc(100% + 9px);right:-8px;background:var(--blue4);color:#fff;font-family:var(--head);font-size:.8rem;font-weight:600;font-style:normal;line-height:1.2;padding:6px 11px;border-radius:8px;white-space:nowrap;opacity:0;pointer-events:none;transform:translateY(4px);transition:opacity .15s,transform .15s;box-shadow:0 6px 18px rgba(0,43,73,.35);z-index:60}
+  .plate .dots i::before{content:'';position:absolute;bottom:calc(100% + 4px);right:4px;border:5px solid transparent;border-top-color:var(--blue4);opacity:0;pointer-events:none;transition:opacity .15s}
+  .plate .dots i:hover::after,.plate .dots i:hover::before{opacity:1;transform:none}
   .kids-toggle{font-family:var(--head);font-weight:700;font-size:calc(.82rem * var(--font-scale,1));color:var(--blue3);background:#eaf3f9;border:1px solid var(--line);border-radius:999px;padding:3px 12px;cursor:pointer;margin-top:7px;position:relative;z-index:2}
   .kids-toggle:hover{background:#dcecf6}
   .admin .plate{cursor:pointer}
@@ -468,7 +471,7 @@
     if(p.note){var nt=document.createElement("div");nt.className="nt";nt.textContent="("+p.note+")";d.appendChild(nt);}
     if((p.marks||[]).length){
       var dots=document.createElement("div");dots.className="dots";
-      p.marks.forEach(function(mid){var m=markById(mid);if(!m)return;var i=document.createElement("i");i.style.background=m.color;i.title=m.name;dots.appendChild(i);});
+      p.marks.forEach(function(mid){var m=markById(mid);if(!m)return;var i=document.createElement("i");i.style.background=m.color;i.dataset.name=m.name;i.setAttribute("aria-label",m.name);i.setAttribute("role","img");dots.appendChild(i);});
       d.appendChild(dots);
     }
     if(isAdmin){
