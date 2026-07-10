@@ -820,16 +820,21 @@
       var img=canvas.toDataURL("image/png");
       var jsPDF=window.jspdf.jsPDF;
       var doc=new jsPDF({orientation:"landscape",unit:"in",format:[17,11]});
-      var pageW=17,pageH=11,margin=0.35,headerH=0.55;
+      var pageW=17,pageH=11,margin=0.35,headerH=0.62;
       var availW=pageW-margin*2, availH=pageH-margin-headerH-margin;
       var ratio=Math.min(availW/canvas.width, availH/canvas.height);
       var w=canvas.width*ratio, hh=canvas.height*ratio;
       var x=(pageW-w)/2, y=margin+headerH+(availH-hh)/2;
+      var logoSize=0.55, textX=margin;
+      try{
+        var logoEl=document.querySelector(".logomark");
+        if(logoEl&&logoEl.src){doc.addImage(logoEl.src,"PNG",margin,margin-0.05,logoSize,logoSize);textX=margin+logoSize+0.18;}
+      }catch(le){}
       doc.setFont("helvetica","bold");doc.setFontSize(13);doc.setTextColor(0,43,73);
-      doc.text("POST Organizational Chart  \u2014  Confidential, For Internal Use Only", margin, margin+0.24);
+      doc.text("POST Organizational Chart  \u2014  Confidential, For Internal Use Only", textX, margin+0.2);
       doc.setFont("helvetica","normal");doc.setFontSize(9);doc.setTextColor(74,91,107);
       var d=new Date(state.updatedAt);
-      doc.text("Updated "+d.toLocaleDateString(undefined,{month:"long",day:"numeric",year:"numeric"})+"     |     Total Current Staff: "+staffCount()+" (excludes interns and open positions)     |     Open positions: "+openCount(), margin, margin+0.44);
+      doc.text("Updated "+d.toLocaleDateString(undefined,{month:"long",day:"numeric",year:"numeric"})+"     |     Total Current Staff: "+staffCount()+" (excludes interns and open positions)     |     Open positions: "+openCount(), textX, margin+0.42);
       doc.addImage(img,"PNG",x,y,w,hh);
       doc.save("POST-Org-Chart-"+new Date().toISOString().slice(0,10)+".pdf");
       toast("PDF downloaded");
