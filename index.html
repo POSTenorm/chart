@@ -835,6 +835,34 @@
       doc.setFont("helvetica","normal");doc.setFontSize(9);doc.setTextColor(74,91,107);
       var d=new Date(state.updatedAt);
       doc.text("Updated "+d.toLocaleDateString(undefined,{month:"long",day:"numeric",year:"numeric"})+"     |     Total Current Staff: "+staffCount()+" (excludes interns and open positions)     |     Open positions: "+openCount(), textX, margin+0.42);
+      // formatting key, upper right (built from live categories + open positions + markers)
+      function hexRGB(hx){hx=(hx||"#000000").replace("#","");if(hx.length===3)hx=hx.split("").map(function(c){return c+c;}).join("");var n=parseInt(hx,16);return [(n>>16)&255,(n>>8)&255,n&255];}
+      var items=[];
+      state.categories.forEach(function(c){items.push({t:"cat",name:c.name,color:c.color,style:c.style});});
+      items.push({t:"open",name:"Open Positions"});
+      state.markers.forEach(function(m){items.push({t:"dot",name:m.name,color:m.color});});
+      doc.setFont("helvetica","normal");doc.setFontSize(8);
+      var sw2=0.15,gap2=0.06,itemGap=0.3;
+      function itemW(it){return sw2+gap2+doc.getTextWidth(it.name);}
+      var half=Math.ceil(items.length/2);
+      var rowsK=[items.slice(0,half),items.slice(half)];
+      doc.setLineWidth(0.015);
+      rowsK.forEach(function(row,ri){
+        if(!row.length)return;
+        var total=0;row.forEach(function(it,i){total+=itemW(it)+(i<row.length-1?itemGap:0);});
+        var kx=pageW-margin-total, ky=margin+0.02+ri*0.26;
+        row.forEach(function(it){
+          if(it.t==="dot"){var rc=hexRGB(it.color);doc.setFillColor(rc[0],rc[1],rc[2]);doc.circle(kx+sw2/2,ky+sw2/2,sw2/2,"F");}
+          else if(it.t==="open"){doc.setFillColor(236,214,175);doc.setDrawColor(184,152,94);doc.setLineDashPattern([0.04,0.03],0);doc.rect(kx,ky,sw2,sw2,"FD");doc.setLineDashPattern([],0);}
+          else {var cc=hexRGB(it.color);
+            if(it.style==="fill"){var lt=cc.map(function(v){return Math.round(v+(255-v)*0.85);});doc.setFillColor(lt[0],lt[1],lt[2]);}
+            else {doc.setFillColor(255,255,255);}
+            doc.setDrawColor(cc[0],cc[1],cc[2]);doc.rect(kx,ky,sw2,sw2,"FD");}
+          doc.setTextColor(74,91,107);
+          doc.text(it.name, kx+sw2+gap2, ky+0.115);
+          kx+=itemW(it)+itemGap;
+        });
+      });
       doc.addImage(img,"PNG",x,y,w,hh);
       doc.save("POST-Org-Chart-"+new Date().toISOString().slice(0,10)+".pdf");
       toast("PDF downloaded");
