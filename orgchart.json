@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": 1783626139070,
+  "updatedAt": 1783695058605,
   "categories": [
     {
       "id": "exec",
@@ -934,7 +934,8 @@
         "exec"
       ],
       "marks": [],
-      "dotted": []
+      "dotted": [],
+      "layout": "stack"
     },
     {
       "id": "p75",
