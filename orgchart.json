@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": 1783718225490,
+  "updatedAt": 1784327421953,
   "categories": [
     {
       "id": "exec",
@@ -309,11 +309,11 @@
     },
     {
       "id": "p24",
-      "first": "TBD",
-      "last": "",
+      "first": "Allison",
+      "last": "Corson",
       "title": "Digital Marketing Associate",
       "manager": "p22",
-      "open": true,
+      "open": false,
       "note": "",
       "cats": [],
       "marks": [],
@@ -674,11 +674,11 @@
     },
     {
       "id": "p53",
-      "first": "TBD",
-      "last": "",
-      "title": "Conservation Easement Intern",
+      "first": "Elizabeth",
+      "last": "Elizabeth Luck",
+      "title": "Conservation Easement Stewardship Intern",
       "manager": "p46",
-      "open": true,
+      "open": false,
       "note": "",
       "cats": [],
       "marks": [],
@@ -706,7 +706,8 @@
       "note": "",
       "cats": [],
       "marks": [],
-      "dotted": []
+      "dotted": [],
+      "layout": "stack"
     },
     {
       "id": "p56",
