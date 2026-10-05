@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": 1791220555253,
+  "updatedAt": 1791231262919,
   "categories": [
     {
       "id": "exec",
@@ -434,7 +434,7 @@
       "title": "Content Marketing Intern",
       "manager": "p32",
       "open": false,
-      "note": "~Q2",
+      "note": "",
       "cats": [],
       "marks": [],
       "dotted": []
