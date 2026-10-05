@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": 1790615382640,
+  "updatedAt": 1791220555253,
   "categories": [
     {
       "id": "exec",
@@ -429,11 +429,11 @@
     },
     {
       "id": "p33",
-      "first": "TBD",
-      "last": "",
+      "first": "Marshall",
+      "last": "Piros",
       "title": "Content Marketing Intern",
-      "manager": "p31",
-      "open": true,
+      "manager": "p32",
+      "open": false,
       "note": "~Q2",
       "cats": [],
       "marks": [],
