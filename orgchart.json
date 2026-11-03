@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": 1791233901629,
+  "updatedAt": 1793722321083,
   "categories": [
     {
       "id": "exec",
@@ -336,19 +336,8 @@
       "note": "",
       "cats": [],
       "marks": [],
-      "dotted": []
-    },
-    {
-      "id": "p26",
-      "first": "Marti",
-      "last": "Tedesco",
-      "title": "Sr. Media & Communications Manager",
-      "manager": "p25",
-      "open": false,
-      "note": "Retires Fall 2026",
-      "cats": [],
-      "marks": [],
-      "dotted": []
+      "dotted": [],
+      "side": ""
     },
     {
       "id": "p27",
