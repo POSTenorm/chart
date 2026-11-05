@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": 1793911686340,
+  "updatedAt": 1793917783837,
   "categories": [
     {
       "id": "exec",
@@ -23,7 +23,7 @@
     {
       "id": "m1000",
       "name": "Employee Resource Group Chair",
-      "color": "#73fa79"
+      "color": "#77bb41"
     }
   ],
   "people": [
@@ -38,9 +38,7 @@
       "cats": [
         "exec"
       ],
-      "marks": [
-        "ic"
-      ],
+      "marks": [],
       "dotted": [],
       "lines": 5
     },
