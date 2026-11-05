@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": 1793722321083,
+  "updatedAt": 1793902511622,
   "categories": [
     {
       "id": "exec",
@@ -12,7 +12,7 @@
   "markers": [
     {
       "id": "ic",
-      "name": "Inclusion Council",
+      "name": "Equity & Inclusion Council",
       "color": "#76d6ff"
     },
     {
@@ -142,7 +142,9 @@
       "open": false,
       "note": "",
       "cats": [],
-      "marks": [],
+      "marks": [
+        "ic"
+      ],
       "dotted": [],
       "layout": "stack"
     },
@@ -167,9 +169,7 @@
       "open": false,
       "note": "",
       "cats": [],
-      "marks": [
-        "ic"
-      ],
+      "marks": [],
       "dotted": []
     },
     {
@@ -281,9 +281,7 @@
       "cats": [
         "exec"
       ],
-      "marks": [
-        "ic"
-      ],
+      "marks": [],
       "dotted": [],
       "layout": "",
       "lines": 5
@@ -348,7 +346,9 @@
       "open": false,
       "note": "",
       "cats": [],
-      "marks": [],
+      "marks": [
+        "ic"
+      ],
       "dotted": [],
       "layout": "stack"
     },
@@ -411,9 +411,7 @@
       "open": false,
       "note": "",
       "cats": [],
-      "marks": [
-        "ic"
-      ],
+      "marks": [],
       "dotted": []
     },
     {
@@ -481,9 +479,7 @@
       "open": false,
       "note": "",
       "cats": [],
-      "marks": [
-        "ic"
-      ],
+      "marks": [],
       "dotted": []
     },
     {
@@ -569,7 +565,9 @@
       "cats": [
         "exec"
       ],
-      "marks": [],
+      "marks": [
+        "ic"
+      ],
       "dotted": [],
       "lines": 5
     },
@@ -859,7 +857,9 @@
       "open": false,
       "note": "",
       "cats": [],
-      "marks": [],
+      "marks": [
+        "ic"
+      ],
       "dotted": []
     },
     {
